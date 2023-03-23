@@ -1,8 +1,13 @@
 import React from 'react'
+import HeroSection from '../components/hero_section'
+import NavBar from '../components/navigation/navbar'
 
 const Root = () => {
   return (
-    <div className='text-3xl font-bold underline'>root</div>
+    <>
+    <NavBar />
+    <HeroSection />
+    </>
   )
 }
 
