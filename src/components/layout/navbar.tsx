@@ -16,27 +16,29 @@ export default function NavBar() {
     
     const navlinks: navLinkItems = [
         {
-            item: 'Cloths ',
-            link: '/clothing'
+            link: "/products/tops",
+            item: "Tops"
         },
         {
-            item: 'Accessories',
-            link: '/accessories'
+            link: "/products/sunglasses" ,
+            item: "Sunglasses"
         },
         {
-            item: 'Shoes',
-            link: '/shoes'
+            link: "/products/womens-dresses",
+            item: "women's-dresses"
         },
         {
-            item: 'Bags',
-            link: '/bags'
-        }, {
-            item: 'Jewelry',
-            link: '/jewelry'
-        }, {
-            item: 'Hats',
-            link: '/hats'
-        }
+            link: "/products/womens-shoes",
+            item: "women's-shoes"
+        },
+        {
+            link: "/products/mens-shoes",
+            item: "mens-shoes"
+        },
+        {
+            link: "/products/mens-shirts",
+            item: 'mens-shirts'
+        },
     ]
     return (
 

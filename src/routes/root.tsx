@@ -1,12 +1,12 @@
-import React from 'react'
-import HeroSection from '../components/hero_section'
-import NavBar from '../components/navigation/navbar'
+import { Outlet } from "react-router-dom";
+import NavBar from '../components/layout/navbar'
+import LandingPage from '../components/landingpage_components.tsx'
 
 const Root = () => {
   return (
     <>
     <NavBar />
-    <HeroSection />
+    <Outlet />
     </>
   )
 }

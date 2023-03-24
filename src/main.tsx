@@ -5,12 +5,27 @@ import './index.css'
 
 import Root from './routes/root';
 import ErrorPage from './error-page';
+import ProductsPage
+, { Loader as ProductLoader }
+  from './components/landingpage_components.tsx/products';
+import LandingPage from './components/landingpage_components.tsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
-    errorElement: <ErrorPage />
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <LandingPage />,
+      },
+      {
+        path: "/products/:category",
+        element: <ProductsPage />,
+        loader: ProductLoader,
+      },
+    ],
   }
 ])
 
