@@ -9,6 +9,7 @@ import ProductsPage
 , { Loader as ProductLoader }
   from './components/landingpage_components.tsx/products';
 import LandingPage from './components/landingpage_components.tsx';
+import Item from './routes/item';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,11 @@ const router = createBrowserRouter([
       {
         path: "/products/:category",
         element: <ProductsPage />,
+        loader: ProductLoader,
+      },
+      {
+        path: "/products/:category/:id",
+        element: <Item /> ,
         loader: ProductLoader,
       },
     ],
