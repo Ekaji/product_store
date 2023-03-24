@@ -1,4 +1,4 @@
-import { Params, useLoaderData, useParams } from "react-router-dom";
+import { Link, Params, useLoaderData, useParams } from "react-router-dom";
 
 export async function Loader({request, params} : any) {
     console.log(params.category)
@@ -32,22 +32,21 @@ export default function Products() {
 
     const data: any = useLoaderData()
 
-    // const params: Readonly<Params<string>> = useParams()
+    const params: Readonly<Params<string>> = useParams()
 
     return (
         <div className='container mx-auto my-16'>
-            <h2 className='text-center font-semibold text-2xl'>{  }</h2>
+            <h2 className='text-center font-semibold text-2xl capitalize'>{ params.category }</h2>
 
             <section className=" py-1">
                 <div className="grid grid-flow-row gap-8 text-neutral-600 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 
                     {
                     data?.products.map(({images, category, description, price, id}: Product) => (
-
+                    <Link className="cursor-pointer" to={`/products/:category/${id}`}>
                         <div key={id}
                             className=" rounded shadow-lg shadow-gray-200 dark:shadow-gray-900 bg-white dark:bg-gray-800 duration-300 hover:-translate-y-1">
 
-                            <a href="link" className="cursor-pointer">
                                 <div>
                                     <img src={
                                             `${
@@ -67,8 +66,8 @@ export default function Products() {
                                         </small>
                                     </div>
                                 </div>
-                            </a>
                         </div>
+                    </Link>
                     ))
                 } </div>
             </section>
