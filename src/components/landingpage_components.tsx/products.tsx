@@ -43,7 +43,7 @@ export default function Products() {
 
                     {
                     data?.products.map(({images, category, description, price, id}: Product) => (
-                    <Link className="cursor-pointer" to={`/products/:category/${id}`}>
+                    <Link className="cursor-pointer" to={`/products/category/${id}`}>
                         <div key={id}
                             className=" rounded shadow-lg shadow-gray-200 dark:shadow-gray-900 bg-white dark:bg-gray-800 duration-300 hover:-translate-y-1">
 

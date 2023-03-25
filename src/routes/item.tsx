@@ -1,7 +1,12 @@
-import { Link, Params, useLoaderData, useParams } from "react-router-dom";
+import {Link, Params, useLoaderData, useParams} from "react-router-dom";
+import type {RootState}
+from "../store";
+import {useSelector, useDispatch} from "react-redux";
+import {addToCart, removeFromCart} from "../slice/cartSlice";
+
 
 export async function Loader({request, params} : any) {
-    console.log(params.category)
+
     try {
         const response = await fetch(`https://dummyjson.com/products/${
             params.id
@@ -16,27 +21,65 @@ export async function Loader({request, params} : any) {
 
 export default function Item() {
 
-    
+    interface Product {
+        brand: string;
+        category: string;
+        description: string;
+        discountPercentage: number;
+        id: number;
+        images: string[];
+        price: number;
+        rating: number;
+        stock: number;
+        thumbnail: string;
+        title: string;
+    }
+
+    const {
+        brand,
+        category,
+        description,
+        discountPercentage,
+        id,
+        images,
+        price,
+        rating,
+        stock,
+        thumbnail,
+        title
+    } : any = useLoaderData()
+
+    console.log(images, category, description, price, id)
+
+    const cartCounter = useSelector((state : RootState) => state.cart.numOfCartItems)
+    const isItemInCart = useSelector((state : RootState) => state.cart.cart.find((item) => item.id === id) ? true : false)
+
+    console.log(isItemInCart)
+
+    const dispatch = useDispatch()
+
     return (
         <section>
             <div className="relative mx-auto max-w-screen-xl px-4 py-8">
                 <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-2">
                     <div className="grid grid-cols-2 gap-4 md:grid-cols-1">
-                        <img alt="Les Paul" src="https://images.unsplash.com/photo-1456948927036-ad533e53865c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80" className="aspect-square w-full rounded-xl object-cover"/>
+                        <img alt="Les Paul"
+                            src={
+                                images[0]
+                            }
+                            className="aspect-square w-full rounded-xl object-cover"/>
                     </div>
 
                     <div className="sticky top-0">
-                        <strong className="rounded-full border border-blue-600 bg-gray-100 px-3 py-0.5 text-xs font-medium tracking-wide text-blue-600">
-                            Pre Order
-                        </strong>
 
                         <div className="mt-8 flex justify-between">
                             <div className="max-w-[35ch] space-y-2">
-                                <h1 className="text-xl font-bold sm:text-2xl">
-                                    Fun Product That Does Something Cool
-                                </h1>
+                                <h1 className="text-3xl font-bold sm:text-2xl capitalize">
+                                    {title} </h1>
 
-                                <p className="text-sm">Highest Rated Product</p>
+                                <h2 className="text-xl">Brand: {brand}</h2>
+
+                                <p className="text-sm">Rating{cartCounter}</p>
 
                                 <div className="-ml-0.5 flex">
                                     <svg className="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -61,114 +104,101 @@ export default function Item() {
                                 </div>
                             </div>
 
-                            <p className="text-lg font-bold">$119.99</p>
                         </div>
 
                         <div className="mt-4">
                             <div className="prose max-w-none">
-                                <p>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
-                                                  veniam dicta beatae eos ex error culpa delectus rem tenetur,
-                                                  architecto quam nesciunt, dolor veritatis nisi minus inventore,
-                                                  rerum at recusandae?
-                                </p>
+                                <p>{description}</p>
                             </div>
-
-                            <button className="mt-2 text-sm font-medium underline">Read More</button>
                         </div>
 
-                        <form className="mt-8">
-                            <fieldset>
-                                <legend className="mb-1 text-sm font-medium">Color</legend>
-
-                                <div className="flex flex-wrap gap-1">
-                                    <label htmlFor="color_tt" className="cursor-pointer">
-                                        <input type="radio" name="color" id="color_tt" className="peer sr-only"/>
-
-                                        <span className="group inline-block rounded-full border px-3 py-1 text-xs font-medium peer-checked:bg-black peer-checked:text-white">
-                                            Texas Tea
-                                        </span>
-                                    </label>
-
-                                    <label htmlFor="color_fr" className="cursor-pointer">
-                                        <input type="radio" name="color" id="color_fr" className="peer sr-only"/>
-
-                                        <span className="group inline-block rounded-full border px-3 py-1 text-xs font-medium peer-checked:bg-black peer-checked:text-white">
-                                            Fiesta Red
-                                        </span>
-                                    </label>
-
-                                    <label htmlFor="color_cb" className="cursor-pointer">
-                                        <input type="radio" name="color" id="color_cb" className="peer sr-only"/>
-
-                                        <span className="group inline-block rounded-full border px-3 py-1 text-xs font-medium peer-checked:bg-black peer-checked:text-white">
-                                            Cobalt Blue
-                                        </span>
-                                    </label>
-                                </div>
-                            </fieldset>
-
-                            <fieldset className="mt-4">
-                                <legend className="mb-1 text-sm font-medium">Size</legend>
-
-                                <div className="flex flex-wrap gap-1">
-                                    <label htmlFor="size_xs" className="cursor-pointer">
-                                        <input type="radio" name="size" id="size_xs" className="peer sr-only"/>
-
-                                        <span className="group inline-flex h-8 w-8 items-center justify-center rounded-full border text-xs font-medium peer-checked:bg-black peer-checked:text-white">
-                                            XS
-                                        </span>
-                                    </label>
-
-                                    <label htmlFor="size_s" className="cursor-pointer">
-                                        <input type="radio" name="size" id="size_s" className="peer sr-only"/>
-
-                                        <span className="group inline-flex h-8 w-8 items-center justify-center rounded-full border text-xs font-medium peer-checked:bg-black peer-checked:text-white">
-                                            S
-                                        </span>
-                                    </label>
-
-                                    <label htmlFor="size_m" className="cursor-pointer">
-                                        <input type="radio" name="size" id="size_m" className="peer sr-only"/>
-
-                                        <span className="group inline-flex h-8 w-8 items-center justify-center rounded-full border text-xs font-medium peer-checked:bg-black peer-checked:text-white">
-                                            M
-                                        </span>
-                                    </label>
-
-                                    <label htmlFor="size_l" className="cursor-pointer">
-                                        <input type="radio" name="size" id="size_l" className="peer sr-only"/>
-
-                                        <span className="group inline-flex h-8 w-8 items-center justify-center rounded-full border text-xs font-medium peer-checked:bg-black peer-checked:text-white">
-                                            L
-                                        </span>
-                                    </label>
-
-                                    <label htmlFor="size_xl" className="cursor-pointer">
-                                        <input type="radio" name="size" id="size_xl" className="peer sr-only"/>
-
-                                        <span className="group inline-flex h-8 w-8 items-center justify-center rounded-full border text-xs font-medium peer-checked:bg-black peer-checked:text-white">
-                                            XL
-                                        </span>
-                                    </label>
-                                </div>
-                            </fieldset>
+                        <div className="mt-8">
 
                             <div className="mt-8 flex gap-4">
                                 <div>
-                                    <label htmlFor="quantity" className="sr-only">Qty</label>
-
-                                    <input type="number" id="quantity" min="1" value="1" className="w-12 rounded border-gray-200 py-3 text-center text-xs [-moz-appearance:_textfield] [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none"/>
+                                    <p className="text-xl font-bold mt-3">${
+                                        `${price}`
+                                    }</p>
                                 </div>
+                                {
 
-                                <button type="submit" className="block rounded bg-green-600 px-5 py-3 text-xs font-medium text-white hover:bg-green-500">
-                                    Add to Cart
+                                    !isItemInCart ? (                               <button // type="submit"
+                                    onClick={
+                                        () => dispatch(addToCart({
+                                            brand,
+                                            category,
+                                            description,
+                                            discountPercentage,
+                                            id,
+                                            images,
+                                            price,
+                                            rating,
+                                            stock,
+                                            thumbnail,
+                                            title
+                                        }))
+                                    }
+                                    className="w-full rounded bg-green-700 px-6 py-3 text-sm font-bold uppercase tracking-wide text-white">
+                                    { 'Add to cart'}
+                                    </button>) : (
+                                    <>
+                                    <button // type="submit"
+                                    onClick={
+                                        () => dispatch(addToCart({
+                                            brand,
+                                            category,
+                                            description,
+                                            discountPercentage,
+                                            id,
+                                            images,
+                                            price,
+                                            rating,
+                                            stock,
+                                            thumbnail,
+                                            title
+                                        }))
+                                    }
+                                    className="w-full rounded bg-green-700 px-6 py-3 text-sm font-bold uppercase tracking-wide text-white">
+                                    { 'Add more items'}
+                                                </button>
+                                                <button // type="submit"
+                                    onClick={
+                                        () => dispatch(removeFromCart(id))
+                                    }
+                                    className="w-full rounded bg-red-700 px-6 py-3 text-sm font-bold uppercase tracking-wide text-white">
+                                    { 'Remove Item'}
                                 </button>
+                                    
+                                    </>
+                                    )
+                                    
+                                    }
+                                {/* <button // type="submit"
+                                    onClick={
+                                        () => dispatch(addToCart({
+                                            brand,
+                                            category,
+                                            description,
+                                            discountPercentage,
+                                            id,
+                                            images,
+                                            price,
+                                            rating,
+                                            stock,
+                                            thumbnail,
+                                            title
+                                        }))
+                                    }
+                                    className="w-full rounded bg-red-700 px-6 py-3 text-sm font-bold uppercase tracking-wide text-white">
+                                    { isItemInCart ? 'Add more items': 'Add to cart'}
+                                </button> */}
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
     )
 }
+
+
